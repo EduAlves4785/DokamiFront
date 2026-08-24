@@ -9,6 +9,8 @@ import {
 interface IDrawerContextData {
     isDrawerOpen: boolean;
     toggleDrawerOpen: () => void;
+    drawerOptions:IDrawerOptions[];
+    setDrawerOptions:(newDrawerOptions:IDrawerOptions[]) => void;
 }
 
 const DrawerContext = createContext({} as IDrawerContextData);
@@ -22,6 +24,12 @@ export const useDrawerContext = () => {
     return useContext(DrawerContext);
 }
 
+interface IDrawerOptions{
+    icon:string;
+    label:string;
+    path:string;
+}
+
 export const DrawerProvider: React.FC<ITDrawerContextProps> = ({ children }) => {
 
     //No react o useState é usado para criar um estado local dentro de um componente funcional. Ele retorna um array com dois elementos: o valor atual do estado e uma função para atualizá-lo. No caso do código fornecido, useState está sendo usado para criar um estado chamado themeName, que pode ter os valores 'light' ou 'dark', e a função setThemeName é usada para atualizar esse estado.
@@ -30,12 +38,18 @@ export const DrawerProvider: React.FC<ITDrawerContextProps> = ({ children }) => 
 
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
+    const [drawerOptions, setDrawerOptions] = useState<IDrawerOptions[]>([]);
+
     const toggleDrawerOpen = useCallback(() => {
         setIsDrawerOpen((oldDrawerOpen) => !oldDrawerOpen);
     }, []);
 
+    const handleSetDrawerOptions = useCallback((newDrawerOptions:IDrawerOptions[]) => {
+        setDrawerOptions(newDrawerOptions)
+    }, []);
+
     return (
-        <DrawerContext.Provider value={{ isDrawerOpen, toggleDrawerOpen }}>
+        <DrawerContext.Provider  value={{ isDrawerOpen, toggleDrawerOpen, drawerOptions, setDrawerOptions:handleSetDrawerOptions }}>
 
             {children}
 

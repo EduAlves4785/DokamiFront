@@ -1,15 +1,27 @@
-import { Button } from "@mui/material"
-import { Routes, Route, Navigate } from "react-router"
-import { useAppThemeContext, useDrawerContext } from "../shared/contexts"
+import { Routes, Route } from "react-router"
+import { useDrawerContext } from "../shared/contexts"
+import { useEffect } from "react"
+import { Dashboard } from "../pages"
 
 export const AppRoutes=()=>{
 
-    const {toggleDrawerOpen}=useDrawerContext()
+    const {setDrawerOptions}=useDrawerContext()
+
+    useEffect(()=>{
+        setDrawerOptions([
+            {
+                label:'Página inicial',
+                icon:'home',
+                path:'home'
+            }
+        ])
+    },[])
+
     return(
         <Routes>
-            <Route path="/home" element={<Button onClick={toggleDrawerOpen} variant="contained" color="primary">Open Drawer</Button>}/>
+            <Route path="/home" element={<Dashboard/>}/>
             {/*O Navigate redireciona para a rota principal caso o usuário jogue uma rota aleatória não existente */}
-            <Route path="*" element={<Navigate to="/home"/>}/>
+            {/*<Route path="*" element={<Navigate to="/home"/>}/> */}
         </Routes>
     )
 }
