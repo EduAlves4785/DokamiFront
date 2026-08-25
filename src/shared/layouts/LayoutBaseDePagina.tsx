@@ -1,6 +1,6 @@
 import { Height } from "@mui/icons-material";
 import { Box, Icon, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material"
-import { useDrawerContext } from "../contexts";
+import {useDrawerContext } from "../contexts";
 import { ReactNode } from "react";
 
 
@@ -29,7 +29,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePagina> = ({ children, ..
 
             <Box sx={{
                 p: 1,
-                height: theme.spacing(smDown?6:mdDown?8:12),
+                height: theme.spacing(smDown ? 6 : mdDown ? 8 : 12),
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1
@@ -37,10 +37,10 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePagina> = ({ children, ..
                 {smDown && (<IconButton onClick={toggleDrawerOpen}>
                     <Icon>menu</Icon>
                 </IconButton>)}
-                <Typography variant={smDown?"h5":mdDown?'h4':'h3'} sx={{
-                    whiteSpace:'nowrap',
-                    overflow:'hidden',
-                    textOverflow:'ellipsis'
+                <Typography variant={smDown ? "h5" : mdDown ? 'h4' : 'h3'} sx={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                 }}>
                     {prev.titulo}
                 </Typography>
@@ -51,11 +51,8 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePagina> = ({ children, ..
                 </Box>
             )}
             <Box sx={{
-                flex:1,
-                overflow:'auto'
-            }}>
-                {children}
-            </Box>
+                flex: 1,
+            }}> {children}</Box>
         </Box>
 
     )
