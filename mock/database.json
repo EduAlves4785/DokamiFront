@@ -1,0 +1,16 @@
+{
+    "pessoas": [
+        {
+            "id": 1,
+            "nome": "João Silva",
+            "idade": 30,
+            "email": "joao.silva@example.com"
+        },
+        {
+            "id": 2,
+            "nome": "Maria Oliveira",
+            "idade": 25,
+            "email": "maria.oliveira@example.com"
+        }
+    ]
+}
