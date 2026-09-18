@@ -36,17 +36,72 @@ const getAll = async (page = 1, filter = ''): Promise<TPessoaComTotalCount | Err
     } catch (error) {
         console.error(error)
         //O erro retornado pelo axios não é do tipo Error, então precisamos fazer um cast para acessar a propriedade message
-        return new Error((error as {mesessage:string}).mesessage|| 'Erro ao listar os registros.')
+        return new Error((error as { mesessage: string }).mesessage || 'Erro ao listar os registros.')
     }
 }
 
-const getById = async (): Promise<Any> => { }
+const getById = async (id: number): Promise<IDetalhePessoa | Error> => {
+    try {
 
-const create = async (): Promise<Any> => { }
+        const { data } = await Api.get(`/pessoas/${id}`)
 
-const updateById = async (): Promise<Any> => { }
+        if (data) {
+            return data
+        }
 
-const deleteById = async (): Promise<Any> => { }
+        return new Error('Erro ao consultar o registro.')
+
+    } catch (error) {
+        console.error(error)
+        //O erro retornado pelo axios não é do tipo Error, então precisamos fazer um cast para acessar a propriedade message
+        return new Error((error as { mesessage: string }).mesessage || 'Erro ao listar os registros.')
+    }
+
+}
+//Omit serve para criar um novo tipo baseado em outro,
+// mas omitindo algumas propriedades. No caso, estamos criando um novo tipo baseado em IDetalhePessoa,
+//  mas omitindo a propriedade id, pois ela não é necessária para criar um novo registro.
+const create = async (dados: Omit<IDetalhePessoa, 'id'>): Promise<number | Error> => {
+    try {
+
+        const { data } = await Api.post<IDetalhePessoa>(`/pessoas`, dados)
+
+        if (data) {
+            return data.id
+        }
+
+        return new Error('Erro ao criar o registro.')
+
+    } catch (error) {
+        console.error(error)
+        //O erro retornado pelo axios não é do tipo Error, então precisamos fazer um cast para acessar a propriedade message
+        return new Error((error as { mesessage: string }).mesessage || 'Erro ao criar o registros.')
+    }
+}
+
+const updateById = async (id: number, dados: IDetalhePessoa): Promise<void | Error> => {
+    try {
+
+        await Api.put(`/pessoas/${id}`, dados)
+
+    } catch (error) {
+        console.error(error)
+        //O erro retornado pelo axios não é do tipo Error, então precisamos fazer um cast para acessar a propriedade message
+        return new Error((error as { mesessage: string }).mesessage || 'Erro ao atualizar o registros.')
+    }
+}
+
+const deleteById = async (id:number): Promise<void | Error> => {
+    try {
+
+        await Api.delete(`/pessoas/${id}`)
+
+    } catch (error) {
+        console.error(error)
+        //O erro retornado pelo axios não é do tipo Error, então precisamos fazer um cast para acessar a propriedade message
+        return new Error((error as { mesessage: string }).mesessage || 'Erro ao apagar o registros.')
+    }
+}
 
 export const PessoasService = {
     getAll,

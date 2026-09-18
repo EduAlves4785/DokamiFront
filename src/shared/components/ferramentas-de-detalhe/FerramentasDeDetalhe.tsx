@@ -55,7 +55,7 @@ export const FerramentaDeDetalhes: React.FC<IFerramentaDeDetalhesProps> = ({
         }}>
             {(mostrarBotaoSalvar && !mostrarBotaoSalvarCarregando) && <Button onClick={aoClicarEmSalvar} variant="contained" color="primary" disableElevation startIcon={<Icon>save</Icon>}>Salvar</Button>}
             {mostrarBotaoSalvarCarregando && <Skeleton width={110} height={60} />}
-            {(mostrarBotaoSalvarEFechar && !mostrarBotaoSalvarEFecharCarregando) && <Button onClick={aoClicarEmSalvarEFechar} variant="outlined" color="primary" disableElevation startIcon={<Icon>save</Icon>}>Salvar e voltar</Button>}
+            {(mostrarBotaoSalvarEFechar && !mostrarBotaoSalvarEFecharCarregando) && <Button onClick={aoClicarEmSalvarEFechar} variant="outlined" color="primary" disableElevation startIcon={<Icon>save</Icon>}>Salvar e fechar</Button>}
             {mostrarBotaoSalvarEFecharCarregando && <Skeleton width={110} height={60} />}
             {(mostrarBotaoApagar && !mostrarBotaoApagarCarregando) && <Button onClick={aoClicarEmApagar} variant="outlined" color="primary" disableElevation startIcon={<Icon>delete</Icon>}>Apagar</Button>}
             {mostrarBotaoApagarCarregando && <Skeleton width={110} height={60} />}
