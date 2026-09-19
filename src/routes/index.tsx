@@ -1,25 +1,31 @@
 import { Routes, Route } from "react-router"
 import { useDrawerContext } from "../shared/contexts"
 import { useEffect } from "react"
-import { Dashboard } from "../pages"
+import { Dashboard, ListagemDeCidade } from "../pages"
 
-export const AppRoutes=()=>{
+export const AppRoutes = () => {
 
-    const {setDrawerOptions}=useDrawerContext()
+    const { setDrawerOptions } = useDrawerContext()
 
-    useEffect(()=>{
+    useEffect(() => {
         setDrawerOptions([
             {
-                label:'Página inicial',
-                icon:'home',
-                path:'home'
+                label: 'Página inicial',
+                icon: 'home',
+                path: 'home'
+            },
+             {
+                label: 'Cidades',
+                icon: 'location_city',
+                path: '/cidades'
             }
         ])
-    },[])
+    }, [])
 
-    return(
+    return (
         <Routes>
-            <Route path="/home" element={<Dashboard/>}/>
+            <Route path="/home" element={<Dashboard />} />
+            <Route path="/cidades" element={<ListagemDeCidade />} />
             {/*O Navigate redireciona para a rota principal caso o usuário jogue uma rota aleatória não existente */}
             {/*<Route path="*" element={<Navigate to="/home"/>}/> */}
         </Routes>
