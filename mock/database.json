@@ -2,15 +2,21 @@
     "pessoas": [
         {
             "id": 1,
-            "nome": "João Silva",
-            "idade": 30,
-            "email": "joao.silva@example.com"
+            "nomeCompleto": "Nome Completo",
+            "email": "email@gmail.com",
+            "cidadeId": 1
         },
         {
             "id": 2,
-            "nome": "Maria Oliveira",
-            "idade": 25,
-            "email": "maria.oliveira@example.com"
+            "nomeCompleto": "Nome Completo 2",
+            "email": "email2@gmail.com",
+            "cidadeId": 2
+        },
+        {
+            "id": 3,
+            "nomeCompleto": "Nome Completo 3",
+            "email": "email3@gmail.com",
+            "cidadeId": 3
         }
     ]
 }
