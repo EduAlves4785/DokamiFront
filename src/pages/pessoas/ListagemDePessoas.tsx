@@ -1,9 +1,11 @@
 import { useSearchParams } from "react-router-dom"
 import { FerramentaDaListagem } from "../../shared/components"
 import { LayoutBaseDePagina } from "../../shared/layouts"
-import { useEffect, useMemo } from "react"
-import { PessoasService } from "../../shared/services/api/pessoas/PessoasService"
+import { useEffect, useMemo, useState } from "react"
+import { PessoasService, IListagemPessoa } from "../../shared/services/api/pessoas/PessoasService"
 import { useDebounce } from "../../shared/hooks"
+import { LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material"
+import { Environment } from "../../shared/environment"
 
 
 export const ListagemDePessoas: React.FC = () => {
@@ -11,7 +13,11 @@ export const ListagemDePessoas: React.FC = () => {
     //useSearchParams é um hook do react-router-dom que permite acessar e manipular os parâmetros de consulta (query parameters) da URL. 
     // Ele retorna um array com dois elementos: o primeiro é um objeto que representa os parâmetros de consulta atuais, e o segundo é uma função que permite atualizar esses parâmetros.
     const [searchParams, setSearchParams] = useSearchParams()
-    const { debounce } = useDebounce(3000, false)
+    const { debounce } = useDebounce()
+
+    const [rows, setRows] = useState<IListagemPessoa[]>([])
+    const [totalCount, setTotalCount] = useState(0)
+    const [isLoading, setIsLoading] = useState(true)
 
     //useMemo é um hook do React que memoriza o valor retornado por uma função, evitando que ela seja recalculada em cada renderização, a menos que suas dependências mudem.
     const busca = useMemo(() => {
@@ -20,14 +26,18 @@ export const ListagemDePessoas: React.FC = () => {
 
     //
     useEffect(() => {
+        setIsLoading(true)
         debounce(() => {
             PessoasService.getAll(1, busca)
                 .then((result) => {
-                   if(result instanceof Error){
-                    alert(result.message)
-                   }else{
-                    console.log(result)
-                   }
+                    setIsLoading(false)
+                    if (result instanceof Error) {
+                        alert(result.message)
+                    } else {
+                        console.log(result)
+                        setTotalCount(result.totalCount)
+                        setRows(result.data)
+                    }
                 })
 
         })
@@ -42,7 +52,43 @@ export const ListagemDePessoas: React.FC = () => {
                 textoBotaoNovo="Nova pessoa"
                 mostrarInput
                 textoDaBusca={busca}
-                aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto }, { replace: true })} />}
-            children='a' />
+                aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto }, { replace: true })} />}>
+            <TableContainer component={Paper} variant="outlined" sx={{
+                m: 1,
+                width: 'auto'
+            }}>
+                <Table >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Ações</TableCell>
+                            <TableCell >Nome</TableCell>
+                            <TableCell >Email</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map(row => (
+                            <TableRow key={row.id}>
+                                <TableCell>Ações</TableCell>
+                                <TableCell>{row.nomeCompleto}</TableCell>
+                                <TableCell>{row.email}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                    {totalCount===0 && !isLoading && (
+                        <caption >{Environment.LISTAGEM_VAZIA}</caption>
+                    )}
+                    <TableFooter>
+                        {isLoading && (
+                            <TableRow>
+                                <TableCell colSpan={3}>
+                                    <LinearProgress variant="indeterminate" />
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+        </LayoutBaseDePagina>
+
     )
 }
