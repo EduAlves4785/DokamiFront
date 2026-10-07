@@ -62,7 +62,7 @@ export const FerramentaDeDetalhes: React.FC<IFerramentaDeDetalhesProps> = ({
             {(mostrarBotaoNovo && !mostrarBotaoNovoCarregando) && <Button onClick={aoClicarEmNovo} variant="outlined" color="primary" disableElevation startIcon={<Icon>add</Icon>}>{textoBotaoNovo}</Button>}
             {mostrarBotaoNovoCarregando && <Skeleton width={110} height={60} />}
             {mostrarBotaoVoltar && <Divider variant="middle" orientation="vertical" />}
-            {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && <Button variant="outlined" color="primary" disableElevation startIcon={<Icon>arrow_back</Icon>}>Voltar</Button>}
+            {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && <Button onClick={aoClicarEmVoltar} variant="outlined" color="primary" disableElevation startIcon={<Icon>arrow_back</Icon>}>Voltar</Button>}
             {mostrarBotaoVoltarCarregando && <Skeleton width={110} height={60} />}
         </Box>
 
