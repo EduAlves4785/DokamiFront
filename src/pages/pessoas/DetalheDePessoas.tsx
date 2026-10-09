@@ -3,7 +3,7 @@ import { LayoutBaseDePagina } from "../../shared/layouts"
 import { FerramentaDeDetalhes } from "../../shared/components"
 import { useEffect, useState } from "react"
 import { PessoasService } from "../../shared/services/api/pessoas/PessoasService"
-import { LinearProgress } from "@mui/material"
+import { LinearProgress, TextField } from "@mui/material"
 
 export const DetalheDePessoas: React.FC = () => {
 
@@ -66,10 +66,7 @@ export const DetalheDePessoas: React.FC = () => {
                     aoClicarEmVoltar={() => navigate('/pessoas')}
                 />
             }>
-            {isLoading && (
-                <LinearProgress variant="indeterminate" />
-            )}
-            <p>Detalhe de pessoas {id}</p>
+           <>a</>
         </LayoutBaseDePagina>
     )
 }
