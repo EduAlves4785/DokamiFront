@@ -2,8 +2,10 @@ import { useNavigate, useParams } from "react-router-dom"
 import { LayoutBaseDePagina } from "../../shared/layouts"
 import { FerramentaDeDetalhes } from "../../shared/components"
 import { useEffect, useState } from "react"
-import { PessoasService } from "../../shared/services/api/pessoas/PessoasService"
-import { LinearProgress, TextField } from "@mui/material"
+import { IDetalhePessoa, PessoasService } from "../../shared/services/api/pessoas/PessoasService"
+import { Box, Button, FormControl, FormHelperText, Input, InputLabel, LinearProgress, TextField, Typography } from "@mui/material"
+import { Formik, useFormik } from "formik"
+import { formScheme, formValidationSchema } from "./formSchemePessoa"
 
 export const DetalheDePessoas: React.FC = () => {
 
@@ -12,6 +14,16 @@ export const DetalheDePessoas: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const [nome, setNome] = useState('')
+
+    const formik = useFormik<IDetalhePessoa>({
+        initialValues: formScheme,
+        onSubmit: handleSubmit,
+        validationSchema: formValidationSchema
+    })
+
+    async function handleSubmit(dados: IDetalhePessoa) {
+        console.log('Pessoa: ' + dados)
+    }
 
     useEffect(() => {
         if (id !== 'nova') {
@@ -66,7 +78,42 @@ export const DetalheDePessoas: React.FC = () => {
                     aoClicarEmVoltar={() => navigate('/pessoas')}
                 />
             }>
-           <>a</>
+            <Box
+                component="form"
+                onSubmit={handleSave}
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    maxWidth: 400,
+                    mx: "auto",
+                    mt: 4,
+                }}
+            >
+                <Typography variant="h5">
+                    Cadastro de usuário
+                </Typography>
+                <Box>
+                    <TextField id="nomeUsuario" label="Nome" variant="outlined" />
+                    <TextField
+                        error
+                        id="standard-error-helper-text"
+                        label="Error"
+                        defaultValue="Hello World"
+                        helperText="Incorrect entry."
+                        variant="standard"
+                    />
+                </Box>
+
+
+
+                <Button
+                    type="submit"
+                    variant="contained"
+                >
+                    Cadastrar
+                </Button>
+            </Box>
         </LayoutBaseDePagina>
     )
 }

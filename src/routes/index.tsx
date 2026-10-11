@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router"
+import { Routes, Route } from "react-router-dom";
 import { useDrawerContext } from "../shared/contexts"
 import { useEffect } from "react"
 import { Dashboard, ListagemDePessoas, DetalheDePessoas } from "../pages"
