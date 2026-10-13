@@ -6,6 +6,8 @@ import { IDetalhePessoa, PessoasService } from "../../shared/services/api/pessoa
 import { Box, Button, FormControl, FormHelperText, Input, InputLabel, LinearProgress, TextField, Typography } from "@mui/material"
 import { Formik, useFormik } from "formik"
 import { formScheme, formValidationSchema } from "./formSchemePessoa"
+import { red } from "@mui/material/colors"
+import { error } from "console"
 
 export const DetalheDePessoas: React.FC = () => {
 
@@ -15,15 +17,23 @@ export const DetalheDePessoas: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [nome, setNome] = useState('')
 
-    const formik = useFormik<IDetalhePessoa>({
-        initialValues: formScheme,
-        onSubmit: handleSubmit,
-        validationSchema: formValidationSchema
-    })
+    const handleSave = () => {
+        console.log('Salvar')
+    }
 
     async function handleSubmit(dados: IDetalhePessoa) {
         console.log('Pessoa: ' + dados)
     }
+
+    const formik = useFormik<IDetalhePessoa>({
+        initialValues: formScheme,
+        //onSubmit: handleSubmit,
+        validationSchema: formValidationSchema,
+        onSubmit: (values) => {
+            console.log("SUBMIT FUNCIONOU!", values);
+            alert("Formulário enviado!");
+        }
+    })
 
     useEffect(() => {
         if (id !== 'nova') {
@@ -42,9 +52,7 @@ export const DetalheDePessoas: React.FC = () => {
         }
     }, [id])
 
-    const handleSave = () => {
-        console.log('Salvar')
-    }
+
 
     const handleDelete = (id: number) => {
         //Confirm é uma função nativa do JavaScript que exibe uma caixa de diálogo de confirmação para o usuário. Ela retorna true se o usuário clicar em "OK" e false se clicar em "Cancelar".
@@ -78,42 +86,43 @@ export const DetalheDePessoas: React.FC = () => {
                     aoClicarEmVoltar={() => navigate('/pessoas')}
                 />
             }>
+
             <Box
                 component="form"
-                onSubmit={handleSave}
+                onSubmit={formik.handleSubmit}
                 sx={{
                     display: "flex",
                     flexDirection: "column",
                     gap: 2,
                     maxWidth: 400,
-                    mx: "auto",
-                    mt: 4,
                 }}
             >
-                <Typography variant="h5">
-                    Cadastro de usuário
-                </Typography>
-                <Box>
-                    <TextField id="nomeUsuario" label="Nome" variant="outlined" />
-                    <TextField
-                        error
-                        id="standard-error-helper-text"
-                        label="Error"
-                        defaultValue="Hello World"
-                        helperText="Incorrect entry."
-                        variant="standard"
-                    />
-                </Box>
+                <TextField
+                    name="nomeCompleto"
+                    label="Nome completo"
+                    value={formik.values.nomeCompleto}
+                    onChange={formik.handleChange}
+                />
 
+                <TextField
+                    name="email"
+                    label="E-mail"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                />
 
+                <TextField
+                    name="cidadeId"
+                    label="Cidade ID"
+                    value={formik.values.cidadeId}
+                    onChange={formik.handleChange}
+                />
 
-                <Button
-                    type="submit"
-                    variant="contained"
-                >
+                <Button type="submit" variant="contained">
                     Cadastrar
                 </Button>
             </Box>
+
         </LayoutBaseDePagina>
     )
 }
